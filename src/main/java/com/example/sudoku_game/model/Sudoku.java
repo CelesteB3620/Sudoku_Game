@@ -14,7 +14,7 @@ public class Sudoku {
     private final ArrayList<ArrayList<Integer>> sudokuSolved; // Represents the full solution of the Sudoku.
     private final int SUDOKU_SIZE = 6; // Size of the Sudoku board (6x6).
     private final Random random = new Random(); // Random number generator.
-
+    private int helps;
     /**
      * Constructor that initializes an empty board and generates a solution for the Sudoku.
      */
@@ -225,4 +225,12 @@ public class Sudoku {
         return SUDOKU_SIZE;
     }
 
+    public int getHelps() {
+        return helps;
+    }
+
+    public int setHelps(int helps) {
+        this.helps = helps;
+        return helps;
+    }
 }

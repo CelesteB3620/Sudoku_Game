@@ -83,16 +83,25 @@ public class SudokuController {
     @FXML
     void onHandleHelpButton(ActionEvent event) throws IOException {
         // Generate a hint by filling an empty cell with the correct value
-        int row, col;
-        do {
-            row = random.nextInt(6);
-            col = random.nextInt(6);
-        } while(sudoku.getCellValue(row, col) != 0);
+        int helps = sudoku.getHelps(); // Retrieve the current number of hints used
+        if (helps != 6) { // Check if the maximum number of hints (6) has not been reached
+            int row, col;
+            do {
+                row = random.nextInt(6);
+                col = random.nextInt(6);
+            } while(sudoku.getCellValue(row, col) != 0);
 
-        int numero = sudoku.getSudokuSolved().get(row).get(col);  // Get the correct value from the solved board
-        sudoku.setCellValue(row, col, numero);  // Update the board with the correct value
-        cells.get(row).get(col).setText(String.valueOf(numero));  // Display the correct value in the grid
-        cells.get(row).get(col).setStyle("-fx-background-color: #C3F6C7;");  // Highlight the cell
+            int numero = sudoku.getSudokuSolved().get(row).get(col);  // Get the correct value from the solved board
+            sudoku.setCellValue(row, col, numero);  // Update the board with the correct value
+            cells.get(row).get(col).setText(String.valueOf(numero));  // Display the correct value in the grid
+            cells.get(row).get(col).setStyle("-fx-background-color: #C3F6C7;");  // Highlight the cell
+            helps++; // Increment the count of hints used
+            sudoku.setHelps(helps);
+            // Update the Sudoku model with the new number of hints used
+        } else {
+            // Show an error alert if the player has used all available hints
+            new AlertBox().showAlert("Error", "¡Sin ayudas!", "Lo siento, se te acabaron las ayudas :(", AlertType.ERROR);
+            }
     }
 
     /**
