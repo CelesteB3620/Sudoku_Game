@@ -1,0 +1,6 @@
+module:com.example.sudoku_game
+com.example.sudoku_game
+com.example.sudoku_game.controller
+com.example.sudoku_game.model
+com.example.sudoku_game.view
+com.example.sudoku_game.view.alert
