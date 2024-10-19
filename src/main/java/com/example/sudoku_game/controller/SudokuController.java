@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
+ * @author Laura Celeste Berrio Parra - 2322101
  * The SudokuController class manages the user interaction,
  * the game logic, and updates the view for the Sudoku game.
  */

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
+ * @author Laura Celeste Berrio Parra - 2322101
  * The main class of the Sudoku game application.
  * This class extends the JavaFX Application class to launch the application.
  */

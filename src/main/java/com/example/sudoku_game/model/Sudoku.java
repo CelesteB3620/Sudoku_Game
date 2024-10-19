@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
+ * @author Laura Celeste Berrio Parra - 2322101
  * The Sudoku class represents a 6x6 Sudoku board and contains methods to solve, validate,
  * and automatically fill some cells in the board.
  */
@@ -141,13 +142,6 @@ public class Sudoku {
     }
 
     /**
-     * Public method to initiate solving the Sudoku.
-     */
-    public void solve() {
-        solve(0, 0);
-    }
-
-    /**
      * Solves the Sudoku using backtracking.
      * @param row The current row.
      * @param col The current column.
@@ -229,8 +223,7 @@ public class Sudoku {
         return helps;
     }
 
-    public int setHelps(int helps) {
+    public void setHelps(int helps) {
         this.helps = helps;
-        return helps;
     }
 }

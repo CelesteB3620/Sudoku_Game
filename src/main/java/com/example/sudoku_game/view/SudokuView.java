@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
+ * @author Laura Celeste Berrio Parra - 2322101
  * The SudokuView class is responsible for setting up and displaying the Sudoku game's window.
  * It extends the JavaFX Stage class and loads the FXML view associated with the game.
  */
