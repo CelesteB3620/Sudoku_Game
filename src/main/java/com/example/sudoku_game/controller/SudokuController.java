@@ -4,12 +4,10 @@ import com.example.sudoku_game.model.Sudoku;
 import com.example.sudoku_game.view.alert.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,14 +15,18 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
 
+
 /**
  * @author Laura Celeste Berrio Parra - 2322101
  * The SudokuController class manages the user interaction,
  * the game logic, and updates the view for the Sudoku game.
  */
 public class SudokuController {
-
+    @FXML
     public Button instructionsButton; //Button that shows game instructions
+    @FXML
+    public Pane infoColors; //Pane of labels with colors information
+
     @FXML
     private GridPane sudokuGrid;  // The grid that displays the Sudoku board
 
@@ -66,13 +68,15 @@ public class SudokuController {
                     cells.get(row).set(col, (TextField) getElementByRowColumn(row, col, sudokuGrid));
                     cells.get(row).get(col).clear();
                     cells.get(row).get(col).setEditable(true);
-                    cells.get(row).get(col).setStyle("-fx-background-color: white;");
+
+                    cells.get(row).get(col).setStyle(cells.get(row).get(col).getStyle() + "-fx-background-color: white;");
                     addTextFieldListener(cells.get(row).get(col), row, col);  // Add listener for cell input validation
                 }
             }
 
             initializeBoard();  // Initialize the board by filling two cells per block
-            helpButton.setDisable(false);  // Enable the help button
+            helpButton.setDisable(false);// Enable the help button
+            infoColors.setVisible(true); // Visible Pane of Labels
         }
     }
 
@@ -85,7 +89,7 @@ public class SudokuController {
     void onHandleHelpButton(ActionEvent event) throws IOException {
         // Generate a hint by filling an empty cell with the correct value
         int helps = sudoku.getHelps(); // Retrieve the current number of hints used
-        if (helps != 6) { // Check if the maximum number of hints (6) has not been reached
+        if (helps != 5) { // Check if the maximum number of hints (5) has not been reached
             int row, col;
             do {
                 row = random.nextInt(6);
@@ -94,15 +98,17 @@ public class SudokuController {
 
             int numero = sudoku.getSudokuSolved().get(row).get(col);  // Get the correct value from the solved board
             sudoku.setCellValue(row, col, numero);  // Update the board with the correct value
-            cells.get(row).get(col).setText(String.valueOf(numero));  // Display the correct value in the grid
-            cells.get(row).get(col).setStyle("-fx-background-color: #C3F6C7;");  // Highlight the cell
+            TextField cell = cells.get(row).get(col);
+            cell.setText(String.valueOf(numero));  // Display the correct value in the grid
+            cell.setStyle(cell.getStyle()+"-fx-background-color: #C3F6C7;");  // Highlight the cell
             helps++; // Increment the count of hints used
             sudoku.setHelps(helps);
             // Update the Sudoku model with the new number of hints used
         } else {
             // Show an error alert if the player has used all available hints
             new AlertBox().showAlert("Error", "¡Sin ayudas!", "Lo siento, se te acabaron las ayudas :(", AlertType.ERROR);
-            }
+            helpButton.setDisable(true);
+        }
     }
 
     /**
@@ -151,13 +157,17 @@ public class SudokuController {
                 // Check if the entered value is valid for the current Sudoku state
                 if (sudoku.checkValidValue(row, col, value, sudoku.getSudoku())) {
                     sudoku.setCellValue(row, col, value);  // Set the value in the model
-                    cell.setStyle("-fx-background-color: white;");  // Reset the cell style
+                    cell.setStyle(cell.getStyle()+"-fx-background-color: white;");
+                     // Reset the cell style
                     if(sudoku.isSudokuSolved()) {
                         new AlertBox().showAlert("Ganaste", "¡Felicidades!", "Has resuelto el Sudoku correctamente :)", AlertType.INFORMATION);
+                        cells.forEach(textFieldRow -> textFieldRow.forEach(textField -> textField.setEditable(false)));
                     }
                 } else {
-                    cell.setStyle("-fx-border-color: red;-fx-border-width: 3px;");  // Highlight invalid input
+                    cell.setStyle(cell.getStyle()+"-fx-background-color: #ffe7f5;");  // Highlight invalid input
                 }
+            } else {
+                sudoku.setCellValue(row, col, 0);
             }
         });
     }
@@ -172,9 +182,10 @@ public class SudokuController {
                 int cellValue = sudoku.getCellValue(row, col);
 
                 if (cellValue != 0) {
-                    cells.get(row).get(col).setText(String.valueOf(cellValue));  // Set the cell value in the grid
-                    cells.get(row).get(col).setStyle("-fx-background-color: #B3D3C2;");  // Highlight pre-filled cells
-                    cells.get(row).get(col).setEditable(false);  // Disable editing for pre-filled cells
+                    TextField cell = cells.get(row).get(col);
+                    cell.setText(String.valueOf(cellValue));  // Set the cell value in the grid
+                    cell.setStyle(cell.getStyle()+"-fx-background-color: #B3D3C2;");  // Highlight pre-filled cells
+                    cell.setEditable(false);  // Disable editing for pre-filled cells
                 }
             }
         }
